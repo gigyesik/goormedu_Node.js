@@ -8,14 +8,19 @@ const rl = readline.createInterface({
 
 rl.on("line", function(line) {
     var result = ''
-    if (line == 200){
-        result = 'wel'
-    } else if (line == 300){
-        result = 'coco'
-    } else if (line == 500){
-        result = 'icetea'
-    } else {
-        result = line
+    switch (line){
+        case '200':
+            result = 'wel';
+        break;
+        case '300':
+            result = 'coco';
+        break;
+        case '500':
+            result = 'icetea';
+        break;
+        default:
+            result = line;
+    break;
     }
     console.log(result);
 	rl.close();
