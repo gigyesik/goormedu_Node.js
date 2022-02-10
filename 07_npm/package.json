@@ -1,0 +1,19 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "description": "js njs test",
+  "main": "index.js",
+  "scripts": {
+    "test": "hello"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gigyesik/goormedu_Node.js.git"
+  },
+  "author": "gigyesik",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gigyesik/goormedu_Node.js/issues"
+  },
+  "homepage": "https://github.com/gigyesik/goormedu_Node.js#readme"
+}
