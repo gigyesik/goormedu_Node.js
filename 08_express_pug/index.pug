@@ -1,0 +1,13 @@
+// index.pug
+
+html
+    head   
+        title= title 
+    body 
+        h1 hello #{title}!
+        u1 
+            -for(var i=0; i<5; i++) // in pug, for statement available
+                li unorderd_list #{i + 1}
+        ol 
+            -for(var i=0; i<5; i++) 
+                li ordered_list #{i + 1}      
