@@ -1,30 +1,38 @@
 // server.js
 
-var app = require('http').createServer(handler),
-    io = require('socket.io').listen(app),
-    fs = require('fs');
+var express = require('express');
+var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+var path = require('path');
 
-app.listen(3000);
+app.set('views', './views');
+app.set('view engine', 'pug');
+app.use(express.static(path.join(__dirname, 'public')));
 
-function handler (req, res) {
-    fs.readFile('index.html', function (err, data) {
-        if (err) {
-            res.writeHead(500);
-            return res.end('Error loading index.html');
-        }
-        res.writeHead(200);
-        res.end(data);
+app.get('/', (req, res) => { // chat.pug rendering
+    res.render('chat');
+});
+
+var count=1; // 1 when login
+io.on('connection', function(socket) {
+    console.log('user connected: ', socket.id);
+    var name = '익명' + count++;
+    socket.name = name;
+    io.to(socket.id).emit('create name', name);
+
+    socket.on('disconnect', function() { // 2 when disconnect
+        console.log('user disconnected: ' + socket.id + ' ' + socket.name);
     });
-}
 
-io.on('connection', function (socket) { // 1
-    socket.emit('news', {serverData : 'server operating'});
-
-    socket.on('client login', function (data) { // 2
-        console.log(data);
-    });
-
-    socket.on('disconnect', function(){ // 3
-        console.log('disconnect login');
+    socket.on('send message', function(name, text) { // 3 seng message
+        var msg = name + ' : ' + text;
+        socket.name = name;
+        console.log(msg);
+        io.emit('receive message', msg);
     });
 });
+
+http.listen(3000, function() {
+    console.log('server on..');
+})
